@@ -1,15 +1,14 @@
 "use strict";
 
-import { error } from "console";
 import { promises as fs } from "fs";
 
 // path to input file
-const inputFile = "./Day 1/input.txt";
+const inputFile = "./Day_1/input.txt";
 const array1 = [];
 const array2 = [];
 let totalDifference = 0;
 
-async function processFile() {
+const processFile = async function () {
   try {
     // We're reading the file from inputFile location.
     const data = await fs.readFile(inputFile);
@@ -39,7 +38,7 @@ async function processFile() {
   } catch {
     console.error("Error processing file");
   }
-}
+};
 
 function getDifference() {
   if (array1.length !== array2.length) {
