@@ -36,7 +36,7 @@ const processFile = async function () {
     array1.sort((a, b) => a - b);
     array2.sort((a, b) => a - b);
   } catch {
-    console.error("Error processing file");
+    throw new Error("Error processing file");
   }
 };
 

@@ -7,7 +7,7 @@ const inputFile = "./Day_1/input.txt";
 const array1 = [];
 const array2 = [];
 
-const processFile = async function() {
+const processFile = async function () {
   try {
     // We're reading the file from inputFile location.
     const data = await fs.readFile(inputFile);
@@ -35,22 +35,21 @@ const processFile = async function() {
     array1.sort((a, b) => a - b);
     array2.sort((a, b) => a - b);
   } catch {
-    console.error("Error processing file");
+    throw new Error("Error processing file");
   }
-}
+};
 
-const getSimilarityScore = function() {
+const getSimilarityScore = function () {
   let similarityScore = 0;
   array1.forEach((num) => {
     let multiplier = 0;
-    for(let i = 0; i < array2.length; i++) {
-      if (num === array2[i])
-        multiplier++;
+    for (let i = 0; i < array2.length; i++) {
+      if (num === array2[i]) multiplier++;
     }
-    similarityScore += (num * multiplier);
-  })
-  return (similarityScore);
-}
+    similarityScore += num * multiplier;
+  });
+  return similarityScore;
+};
 
 try {
   await processFile(); // Wait for processFile to complete
