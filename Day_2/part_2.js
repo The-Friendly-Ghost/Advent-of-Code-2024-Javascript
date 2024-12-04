@@ -2,58 +2,95 @@
 
 import { promises as fs } from "fs";
 
-// path to input file
-const inputFile = "./Day_2/input.txt";
-let numbers = [];
-let safeReports = 0;
-
 const processFile = async function () {
   try {
-    // We're reading the file from inputFile location.
+    // path to input file
+    const inputFile = "./input.txt";
+    // Read the file from inputFile location.
     const data = await fs.readFile(inputFile);
 
-    // First, we convert the datastream to a readable string
+    // Convert the datastream to a readable string
     const inputData = data.toString();
 
     // Split: splits the string into an array of strings. Split on the newline
     // filter removes empty strings.
-    numbers = inputData.split(/\r?\n|\r/).filter((num) => num.trim() !== "");
+    const numbers = inputData
+      .split(/\r?\n|\r/)
+      .filter((num) => num.trim() !== "");
 
-    /* checks each substring for: 
-	1. The levels are either all increasing or all decreasing.
-	2. Any two adjacent levels differ by at least one and at most three. */
+    // Now we split each substring into arrays of numbers
+    const numArr = [];
     numbers.forEach((str) => {
-      const arr = str.split(/\s+/).map(Number);
-      let increasing = true;
-      let decreasing = true;
-      let diffValid = true;
-      let badLevel = 0;
-      for (let i = 1; i < arr.length; i++) {
-        const diff = Math.abs(arr[i - 1] - arr[i]);
-        if (diff < 1 || diff > 3) {
-          diffValid = false;
-          badLevel++;
-          break;
-        }
-        if (arr[i - 1] > arr[i]) {
-          increasing = false;
-          if (!decreasing) badLevel++;
-        } else if (arr[i - 1] < arr[i]) {
-          decreasing = false;
-          if (!increasing) badLevel++;
-        }
-      }
-      if (diffValid && (increasing || decreasing)) {
-        safeReports++;
-      }
+      let arr = str.split(/\s+/).map(Number);
+      numArr.push(arr);
     });
+    return numArr;
   } catch (error) {
     throw new Error(error.message);
   }
 };
 
+/**
+ * Checks if a report is safe or not
+ * @param {array} report A single array of numbers
+ * @returns Boolean - true if report is safe, false if not safe
+ */
+const reportIsSafe = function (report) {
+  let increasing = true;
+  let decreasing = true;
+
+  for (let i = 1; i < report.length; i++) {
+    // Check the difference between two numbers
+    const diff = Math.abs(report[i - 1] - report[i]);
+    if (diff < 1 || diff > 3) {
+      return false;
+    }
+    // check if number is increasing or decreasing
+    if (report[i - 1] > report[i]) {
+      increasing = false;
+    } else if (report[i - 1] < report[i]) {
+      decreasing = false;
+    }
+  }
+  // return true or false
+  if (increasing || decreasing) {
+    return true;
+  }
+  return false;
+};
+
+/**
+ * Applies the problem dampener to check if a report is safe or not
+ * @param {array} A single array of numbers
+ * @returns Boolean - true if report is safe, false if not safe
+ */
+const problemDampener = function (report) {
+  for (let i = 0; i < report.length; i++) {
+    const tempArr = report.filter((num, index) => index !== i);
+    if (reportIsSafe(tempArr)) {
+      return true;
+    }
+  }
+  return false;
+};
+
+/**
+ * The main loop. First converts the inputfile to a 2D array of numbers.
+ * Then, goes through this array to check for safe reports.
+ */
 try {
-  await processFile();
+  let arrNum = await processFile();
+  let safeReports = 0;
+
+  // Check for safe reports
+  for (let i = 0; i < arrNum.length; i++) {
+    if (reportIsSafe(arrNum[i])) {
+      safeReports++;
+    } else if (problemDampener(arrNum[i])) {
+      safeReports++;
+    }
+  }
+
   console.log(safeReports);
 } catch (error) {
   console.error("An error occured: ", error.message);

@@ -3,7 +3,7 @@
 import { promises as fs } from "fs";
 
 // path to input file
-const inputFile = "./Day_2/input.txt";
+const inputFile = "./input.txt";
 let numbers = [];
 let safeReports = 0;
 
