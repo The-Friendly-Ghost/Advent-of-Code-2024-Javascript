@@ -54,20 +54,33 @@ const getUnSafeManuals = function (rules, manuals) {
 };
 
 const makeSafeManuals = function (unsafeManuals, rules) {
-  // const safeManuals = Array.from({ length: unsafeManuals.length }, () => []);
-  // for (let i = 0; i < unsafeManuals; i++) {
-  //   let len = unsafeManuals[i].length;
-  //   while (len) {
-  //     unsafeManuals[i].forEach((num) => {
-  //       if (unsafeManuals[i].some((num) => rules[index].includes(num))) {
-  //         safe = false;
-  //       }
-  //     });
-  //   }
-  // }
+  const safeManuals = [];
+
+  // Process each unsafe manual
+  for (let i = 0; i < unsafeManuals.length; i++) {
+    const manual = unsafeManuals[i];
+    const ordered = [];
+    const remaining = manual.slice();
+
+    // Keep going until we've placed all numbers
+    while (remaining.length > 0) {
+      // Find a number that has no dependencies in remaining numbers
+      const nextIndex = remaining.findIndex(
+        (num) => !remaining.some((otherNum) => rules[num].includes(otherNum))
+      );
+
+      // Add it to ordered list and remove from remaining
+      ordered.push(remaining[nextIndex]);
+      remaining.splice(nextIndex, 1);
+    }
+
+    safeManuals.push(ordered);
+  }
+
+  return safeManuals;
 };
 
-const getSafeSum = function (arr) {
+const getSum = function (arr) {
   let sum = 0;
 
   for (let i = 0; i < arr.length; i++) {
@@ -82,7 +95,7 @@ try {
   const rules = getRules(arr);
   const unSafeManuals = getUnSafeManuals(rules, getManuals(arr));
   const safeManuals = makeSafeManuals(unSafeManuals, rules);
-  // const totalSum = getSum(unSafeManuals);
+  const totalSum = getSum(safeManuals);
   console.log(totalSum);
 } catch (error) {
   console.error(`Error: ${error.message}`);
