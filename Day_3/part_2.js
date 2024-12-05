@@ -1,11 +1,11 @@
 "use strict";
-import { promises as fs } from "fs";
+import { readFile } from "fs/promises";
 
 /**
  * @returns String - The inputfile, converted to a string
  */
 const processFile = async function () {
-  const inputStr = await fs.readFile("./input.txt", "utf8");
+  const inputStr = await readFile("./input.txt", "utf8");
   return inputStr;
 };
 
