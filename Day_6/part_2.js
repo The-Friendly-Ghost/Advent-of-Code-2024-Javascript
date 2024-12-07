@@ -13,7 +13,7 @@ try {
   // These two for loops go trough all positions of the map.
   for (let y = 0; y < map.yLength; y++) {
     for (let x = 0; x < map.xLength; x++) {
-      // for every position in the map, check if there already is a '.'
+      // for every position in the map, check if there is a '.'
       if (map.getChar([y, x]) === ".") {
         // create a copy of the original map
         let mapCopy = map.copy();
@@ -33,10 +33,8 @@ try {
 
           // Check if guard would move out of bounds
           if (nextChar === "0") {
-            mapCopy.setChar(guard.position());
             break;
           }
-
           // If there's an obstacle ahead, turn right
           if (nextChar === "#") {
             guard.turn();
@@ -49,7 +47,6 @@ try {
     }
   }
   console.log(infiniteLoops);
-  // map.print();
 } catch (error) {
   console.error(`Error: ${error.message}`);
 }
