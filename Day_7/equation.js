@@ -34,7 +34,7 @@ export class Equation {
     // Looping must be done for up to 2^operatorAmount combinations
     for (let i = 0; i < 2 ** operatorAmount; i++) {
       /* Iterator value will be converted to a bit value in 
-      an array. For example, i = 5 could be [0, 0, 0, 1, 0, 1] */
+      an array. For example, i = 5 will be [0, 0, 0, 1, 0,] */
       const bits = this.getBits(i, operatorAmount);
       // 0 = +-operator - 1 = *-operator
       let sum = this.nums[0];
