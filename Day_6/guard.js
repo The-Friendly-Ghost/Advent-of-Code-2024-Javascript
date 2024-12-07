@@ -7,9 +7,7 @@ export class Guard {
       throw new Error("Constructor Guard - Direction not valid");
     if (arr[1] < 0 || arr[2] < 0)
       throw new Error("Constructor Guard - Position not valid");
-    this.direction = arr[0];
-    this.posY = arr[1];
-    this.posX = arr[2];
+    [this.direction, this.posY, this.posX] = arr;
     this.visited = new Set();
   }
 

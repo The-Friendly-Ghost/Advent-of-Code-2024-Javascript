@@ -6,7 +6,8 @@ import { Map } from "./map.js";
 
 try {
   const fileInput = await readFile("./input.txt", "utf8");
-  const map = new Map(fileInput.split(/\r?\n/));
+  const splitFile = fileInput.split(/\r?\n/);
+  const map = new Map(splitFile.map((line) => line.split("")));
   const guard = new Guard(map.findGuard());
 
   // Mark initial position
@@ -30,9 +31,7 @@ try {
       guard.walk();
     }
   }
-  //   map.destroyGuard(guard.position());
   console.log(map.countX());
-  // map.print();
 } catch (error) {
   console.error(`Error: ${error.message}`);
 }

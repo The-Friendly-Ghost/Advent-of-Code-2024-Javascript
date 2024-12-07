@@ -2,7 +2,7 @@
 
 export class Map {
   constructor(map) {
-    this.map = map;
+    this.map = [...map];
     this.yLength = map.length;
     this.xLength = map[0].length;
   }
