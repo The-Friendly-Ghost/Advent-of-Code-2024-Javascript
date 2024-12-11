@@ -1,6 +1,6 @@
 "use strict";  
 /*
-Not going to lie.. I created the recursice logic myself, but Claude Sonnet 3.5 
+Not going to lie.. I created the recursive logic myself, but Claude Sonnet 3.5 
 helped me big time to understand the whole concept of caching and 
 how to structure the code for it. So yeah, credits to Claude.
 */
