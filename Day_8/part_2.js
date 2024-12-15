@@ -14,6 +14,7 @@ const getNodes = function (map, yLen, xLen) {
     for (let x = 0; x < xLen; x++) {
       if (isAlphanumeric(map[y][x])) {
         characters.push([map[y][x], y, x]);
+        antiNodesSet.add(`${y}, ${x}`);
       }
     }
   }
@@ -27,15 +28,20 @@ const calculateAntiNodes = function (first, second, yLen, xLen) {
   // calculate difference
   const diffY = sy - fy;
   const diffX = sx - fx;
+
   // Check first antinode
-  const [y1, x1] = [fy - diffY, fx - diffX];
-  if (y1 >= 0 && y1 < yLen && x1 >= 0 && x1 < xLen) {
+  let [y1, x1] = [fy - diffY, fx - diffX];
+  while (y1 >= 0 && y1 < yLen && x1 >= 0 && x1 < xLen) {
     antiNodesSet.add(`${y1}, ${x1}`);
+    y1 -= diffY;
+    x1 -= diffX;
   }
   // Check second antinode
-  const [y2, x2] = [sy + diffY, sx + diffX];
-  if (y2 >= 0 && y2 < yLen && x2 >= 0 && x2 < xLen) {
+  let [y2, x2] = [sy + diffY, sx + diffX];
+  while (y2 >= 0 && y2 < yLen && x2 >= 0 && x2 < xLen) {
     antiNodesSet.add(`${y2}, ${x2}`);
+    y2 += diffY;
+    x2 += diffX;
   }
 };
 
